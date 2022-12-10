@@ -1,0 +1,36 @@
+
+.land {
+    stroke: black;
+    stroke-width: 1.5px;
+}
+
+#info-box {
+    display:none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    background-color: #ffffff;
+    border: 2px solid blue;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: arial;
+}
+
+select {
+    width: 200px; 
+    padding: .8em .5em; 
+    border: 1px solid #999;
+    font-family: inherit;  
+    background: url('../images/arrow.jpg') no-repeat 95% 50%; 
+    border-radius: 0px; 
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+    
+select::-ms-expand {
+        display: none;
+}
