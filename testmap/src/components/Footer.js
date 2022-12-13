@@ -6,7 +6,7 @@ function Footer() {
     return(
         <div>
             <hr/>
-            푸터입니당
+            Inhatc 201944067 김동건
         </div>
 
     )

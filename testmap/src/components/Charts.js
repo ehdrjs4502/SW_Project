@@ -6,41 +6,38 @@ import ConvertBtn from './ConvertBtn';
 function Charts() {
     const [year,setYear] = useState("2020년")
     const [data,setData] = useState([""])
-    const damageArray = []
+    const damageArray = [] // 자연재해 피해량 담을 배열
 
     console.log("charts 컴포넌트 year, data : ",year,data)
 
     for(let i = 0; i < data.length; i++) {
-        damageArray.push(data[i][year])
+        damageArray.push(data[i][year]) // 자연재해 피해량 넣기
     }
 
-    const provinceArray = data.map((x) => {
+    const provinceArray = data.map((x) => { // 시도 구역 넣기
         return x.구분_년도
     })
 
+    // key: 시도, value: 피해량
     const provinceDamageArray = provinceArray.reduce((obj, key, index) => ({ ...obj, [key]: damageArray[index] }), {});
 
+    // 피해량이 큰순으로 내림차순 정렬
     const sortable = Object.entries(provinceDamageArray)
     .sort(([, a], [, b]) => b - a)
     .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
 
-    // console.log(sortable);
+   
+    const sortProvince = Object.keys(sortable) // 정렬된 시도구역 넣기
+    const sortDamage = Object.values(sortable) // 정렬된 피해량 넣기
 
-    // console.log("키 : ",Object.keys(sortable))
-    // console.log("값 : ",Object.values(sortable))
-
-    const sortProvince = Object.keys(sortable)
-    const sortDamage = Object.values(sortable)
-
+    // 제일 큰 합계,null 필요 없으니까 지우기
+    sortProvince.shift()
+    sortDamage.shift()
     sortProvince.shift()
     sortDamage.shift()
 
-    // console.log(sortProvince)
-    // console.log(sortDamage)
-
-    // console.log(sortDamage.map((e) => e == undefined ? 0 : e))
-
-    // console.log(sortDamage.map((e) => e == undefined ? 0 : e).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    console.log("sortDamage : ", sortDamage)
+    console.log("sortProvince : ", sortProvince)
 
     const chartData = {
         series: [{ // 자연재해 피해량 넣기
@@ -55,7 +52,7 @@ function Charts() {
                 height: 500
             },
 
-            fill: {
+            fill: { // 막대기 색상
                 type: 'gradient',
                 colors: ['#3366FF'],
                 gradient: {
@@ -71,7 +68,7 @@ function Charts() {
                 }
             },
 
-            plotOptions: {
+            plotOptions: { // 막대기 스타일
                 bar: {
                     borderRadius: 5,
                     horizontal: true
@@ -89,7 +86,7 @@ function Charts() {
                 }
             },
 
-            tooltip: {
+            tooltip: { // 막대기에 마우스 올렸을 때 상세 피해량 보여주기
                 y: {
                   formatter: function (value) {
                     return "피해량 : " + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -97,11 +94,7 @@ function Charts() {
                 },
               },
         },
-        
-        
     };
-
-    var color = "blue"
 
     return(
         <div>

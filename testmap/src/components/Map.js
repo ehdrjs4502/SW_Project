@@ -27,20 +27,17 @@ function Map() {
     
     let result;
 
-    let damageArray = [];
+    let damageArray = []; // 자연재해 피해량만 담을 배열
 
     for(let i = 0; i < data.length; i++) {
-        damageArray.push(data[i][year])
+        damageArray.push(data[i][year]) // 자연재해 피해량 담기
     }
-
-    // console.log("damageArray : ",damageArray)
 
     const provinceArray = data.map((x) => {
         return x.구분_년도
     })
 
-    //시도 : 피해량
-    //key  : value
+    //key  : 시도, value : 피해량
     const provinceDamageArray = provinceArray.reduce((obj, key, index) => ({ ...obj, [key]: damageArray[index] }), {});
 
     // console.log("provinceArray : ",provinceArray)
@@ -48,12 +45,12 @@ function Map() {
     // console.log("provinceDamageArray : ", provinceDamageArray )
 
     function setColor(name) { // 시도 채도 설정
-        var a = 700000000
-        var m = 100
-        //console.log(name)
-        var x = provinceDamageArray[name]
+        var a = 700000000 // 채도 구할 때 필요한 수
+        var m = 100 // 채도 구할 때 필요한 수
+        var x = provinceDamageArray[name] // 시도구역에 자연재해 피해량
+
         x = -a/(x+a/m) + m // 채도 구하는 식
-        //console.log("x: ",x)
+        
         if(isNaN(x)) { // 데이터 값이 없을 경우(null인 데이터가 존재합니당)
             return 0 
         }
@@ -62,20 +59,20 @@ function Map() {
 
     function mouseOver(event) { // Map에 마우스를 올리면
         console.log("마우스 올리 지역 : ",event.target.id) // 올린 시도에 이름을 로그로 출력
-        function isProvince(element)  { // 
-            if(element['구분_년도'] === event.target.id)  {
+        function isProvince(element)  { // 마우스 올린 시도구역
+            if(element['구분_년도'] === event.target.id)  { // 시도구역이 일치하면 true 반환
                 return true;
             } 
         }
         
-        result = data.filter(isProvince) 
+        result = data.filter(isProvince) // 마우스 올린 시도구역에 자연재해 데이터 넣기
         console.log("result : ",result[0])
 
-        setDamage(result[0] !==  undefined ? result[0][year] : "0")
-        setProvince(event.target.id)
+        setDamage(result[0] !==  undefined ? result[0][year] : "0") // 데이터가 존재하지 않으면 0으로 표시
+        setProvince(event.target.id) // 마우스가 올려진 곳에 시도 이름 넣기
         document.getElementsByClassName('trial')
         
-        event.target.style.fill = "red"
+        event.target.style.fill = "red" // 마우스 올린 구역 색상 변경
 
     }
 
